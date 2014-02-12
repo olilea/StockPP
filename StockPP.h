@@ -1,16 +1,13 @@
-#include <iostream>
-
-using std::cout;
-using std::endl;
+#include "UserI.h"
 
 class StockPP {
 	
-public:
-	StockPP();
-	int begin(void);
+	private:
+		UserI userI;
 
-private:
-	void generateMenu(void);
-
-
+	public:
+		StockPP(void);
+		int begin(void);
+		UserI getUserI(void);
 };
+

@@ -7,8 +7,9 @@ FLAGS=	-Wall \
 
 EXECUTABLE=Stock++
 
-SRCS=	StockPP.cpp \
-		main.cpp
+SRCS=	main.cpp \
+		StockPP.cpp \
+		UserI.cpp
 
 all:	main
 		@echo "Build finished"

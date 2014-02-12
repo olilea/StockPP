@@ -5,12 +5,13 @@ StockPP::StockPP(void) {
 }
 
 int StockPP::begin(void) {
-	cout << "Hello, world, but ++" << endl;
+	//cout << "Hello, world, but ++" << endl;
+
+	userI.mainMenu();
 
 	return 0;
 }
 
-void StockPP::generateMenu(void) {
-
-	return;
+UserI getUserI(void) {
+	return userI;
 }
