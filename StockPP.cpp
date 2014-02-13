@@ -12,6 +12,6 @@ int StockPP::begin(void) {
 	return 0;
 }
 
-UserI getUserI(void) {
+UserI StockPP::getUserI(void) {
 	return userI;
 }
