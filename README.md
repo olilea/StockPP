@@ -1,4 +1,4 @@
 StockPP
 =======
 
-A port of of the my jStock game into C++
+A port of my jStock game into C++
