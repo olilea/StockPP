@@ -1,13 +1,16 @@
-#include "UserI.h"
+#ifndef STOCKPP_H
+#define STOCKPP_H
+
+#include "UserInterface.h"
 
 class StockPP {
 	
 	private:
-		UserI userI;
+		UserInterface ui;
 
 	public:
-		StockPP(void);
 		int begin(void);
-		UserI getUserI(void);
+		UserInterface getUserInterface(void);
 };
 
+#endif

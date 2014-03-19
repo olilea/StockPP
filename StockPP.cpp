@@ -1,17 +1,12 @@
 #include "StockPP.h"
 
-StockPP::StockPP(void) {
-	return;
-}
-
 int StockPP::begin(void) {
-	//cout << "Hello, world, but ++" << endl;
 
-	userI.mainMenu();
+	ui.mainMenu();
 
 	return 0;
 }
 
-UserI StockPP::getUserI(void) {
-	return userI;
+UserInterface StockPP::getUserInterface(void) {
+	return ui;
 }
