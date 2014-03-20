@@ -6,11 +6,11 @@
 
 class UserInterface {
 
-	private:
-		std::string input;
+public:
+	void mainMenu(void);
 
-	public:
-		void mainMenu(void);
+private:
+	std::string input;
 
 };
 

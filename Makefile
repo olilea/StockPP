@@ -9,7 +9,8 @@ EXECUTABLE=Stock++
 
 SRCS=	main.cpp \
 		StockPP.cpp \
-		UserInterface.cpp
+		UserInterface.cpp \
+		User.cpp
 
 all:	main
 		@echo "Build finished"

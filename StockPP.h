@@ -5,12 +5,15 @@
 
 class StockPP {
 	
-	private:
-		UserInterface ui;
+public:
+	int begin(void);
 
-	public:
-		int begin(void);
-		UserInterface getUserInterface(void);
+	UserInterface getUserInterface(void);
+
+
+private:
+	UserInterface ui;
+
 };
 
 #endif
