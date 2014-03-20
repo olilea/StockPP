@@ -2,6 +2,7 @@
 #define USERINTERFACE_H
 
 #include <iostream>
+#include <string>
 
 class UserInterface {
 
