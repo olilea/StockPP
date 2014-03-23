@@ -1,19 +1,17 @@
 #ifndef STOCKPP_H
 #define STOCKPP_H
 
-#include "UserInterface.h"
+class UserInterface;
 
 class StockPP {
 	
 public:
-	int begin(void);
+	static int begin(void);
 
-	UserInterface getUserInterface(void);
-	static bool getLoggedIn(void);
+	static UserInterface getUserInterface(void);
 
 private:
-	UserInterface ui;
-	static bool loggedIn;
+	static UserInterface ui;
 
 };
 

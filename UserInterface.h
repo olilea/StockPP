@@ -7,10 +7,14 @@
 class UserInterface {
 
 public:
-	void mainMenu(void);
+	int mainMenu(void);
+	void menuChoices(void);
 
 private:
 	std::string input;
+
+	void fetchLoginInfo(void);
+	void logoutHandler(void);
 
 };
 

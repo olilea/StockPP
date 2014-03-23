@@ -1,18 +1,16 @@
 #include "StockPP.h"
 
-bool StockPP::loggedIn = false;
+#include "UserInterface.h"
+
+// Static declarations
+UserInterface StockPP::ui;
 
 int StockPP::begin(void) {
 
-	ui.mainMenu();
+	return ui.mainMenu();
 
-	return 0;
 }
 
 UserInterface StockPP::getUserInterface(void) {
 	return ui;
-}
-
-bool StockPP::getLoggedIn(void) {
-	return loggedIn;
 }

@@ -2,8 +2,6 @@
 
 int main(void) {
 
-	StockPP stockPP;
-
-	return stockPP.begin();
+	return StockPP::begin();
 }
 
