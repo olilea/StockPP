@@ -9,10 +9,11 @@ public:
 	int begin(void);
 
 	UserInterface getUserInterface(void);
-
+	static bool getLoggedIn(void);
 
 private:
 	UserInterface ui;
+	static bool loggedIn;
 
 };
 

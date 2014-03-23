@@ -1,5 +1,7 @@
 #include "StockPP.h"
 
+bool StockPP::loggedIn = false;
+
 int StockPP::begin(void) {
 
 	ui.mainMenu();
@@ -9,4 +11,8 @@ int StockPP::begin(void) {
 
 UserInterface StockPP::getUserInterface(void) {
 	return ui;
+}
+
+bool StockPP::getLoggedIn(void) {
+	return loggedIn;
 }
