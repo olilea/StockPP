@@ -10,7 +10,7 @@ class UserInterface;
 class StockPP {
 	
 public:
-	static int begin(string userFilename = "userData.txt");
+	static int begin(string userFilename = "userData.json");
 
 	static UserInterface getUserInterface(void);
 

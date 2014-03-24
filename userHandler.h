@@ -12,6 +12,8 @@ class UserHandler {
 public:
 	static int login(string);
 	static int logout(void);
+	static string readUserFile(void);
+	static void setupUserFile(void);
 
 	static User getLoggedInUser(void);
 	static bool getLoggedInStatus(void);

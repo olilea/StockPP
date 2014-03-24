@@ -14,7 +14,7 @@ int UserInterface::mainMenu(void) {
 	bool chosen = false;
 
 	if (!UserHandler::getLoggedInStatus()) {
-		cout << "YOU ARE NOT LOGGED IN - Login using the menu below\n" << endl;
+		cout << "YOU ARE NOT LOGGED IN - Login using the menu below" << endl;
 	}
 
 	while (1) {
@@ -67,7 +67,7 @@ int UserInterface::mainMenu(void) {
 
 void UserInterface::menuChoices(void) {
 
-	cout << "\nMain Menu:\n\rPlease make your selection from below\n" << endl;
+	cout << "Main Menu:\n\rPlease make your selection from below\n" << endl;
 
 	cout << "1: Lookup stock by ticker\n"
 			<< "2: View stock in portfolio\n"

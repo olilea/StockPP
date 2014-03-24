@@ -3,6 +3,8 @@
 
 #include <string>
 
+using std::string;
+
 class UserInterface {
 
 public:
@@ -10,7 +12,7 @@ public:
 	void menuChoices(void);
 
 private:
-	std::string input;
+	string input;
 
 	void fetchLoginInfo(void);
 	void logoutHandler(void);

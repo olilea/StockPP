@@ -15,7 +15,7 @@ int StockPP::begin(string userFilename) {
 	std::cout << "Using user database: " << userFilename << std::endl;
 
 	UserHandler::setUserFilename(userFilename);
-	//UserHandler::setupUserFile
+	UserHandler::setupUserFile();
 
 	return ui.mainMenu();
 
