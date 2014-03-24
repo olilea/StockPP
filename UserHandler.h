@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "User.h"
+class User;
 
 class UserHandler {
 

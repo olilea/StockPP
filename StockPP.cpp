@@ -1,5 +1,4 @@
 #include "StockPP.h"
-
 #include "UserInterface.h"
 
 // Static declarations

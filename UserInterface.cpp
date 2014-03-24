@@ -1,6 +1,8 @@
 #include "UserInterface.h"
-
 #include "UserHandler.h"
+
+#include <iostream>
+#include <string>
 
 using std::cout;
 using std::cin;
@@ -65,7 +67,7 @@ int UserInterface::mainMenu(void) {
 
 void UserInterface::menuChoices(void) {
 
-	cout << "Main Menu:\n\rPlease make your selection from below\n" << endl;
+	cout << "\nMain Menu:\n\rPlease make your selection from below\n" << endl;
 
 	cout << "1: Lookup stock by ticker\n"
 			<< "2: View stock in portfolio\n"

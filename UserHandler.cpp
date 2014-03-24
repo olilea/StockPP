@@ -1,5 +1,7 @@
-
 #include "UserHandler.h"
+#include "User.h"
+
+#include <string>
 
 using std::string;
 
