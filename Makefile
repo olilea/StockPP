@@ -10,8 +10,8 @@ EXECUTABLE=Stock++
 SRCS=	main.cpp \
 		stockPP.cpp \
 		userInterface.cpp \
-		user.cpp \
-		userHandler.cpp
+		accounts/user.cpp \
+		accounts/userHandler.cpp
 
 all:	main
 		@echo "Build finished"

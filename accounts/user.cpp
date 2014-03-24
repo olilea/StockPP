@@ -1,6 +1,6 @@
 #include <string>
 
-#include "User.h"
+#include "user.h"
 
 using std::string;
 

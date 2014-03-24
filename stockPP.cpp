@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
 
-#include "StockPP.h"
-#include "UserInterface.h"
-#include "UserHandler.h"
+#include "stockPP.h"
+#include "userInterface.h"
+
+#include "accounts/userHandler.h"
 
 using std::string;
 

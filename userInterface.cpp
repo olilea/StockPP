@@ -1,5 +1,6 @@
-#include "UserInterface.h"
-#include "UserHandler.h"
+#include "userInterface.h"
+
+#include "accounts/userHandler.h"
 
 #include <iostream>
 #include <string>

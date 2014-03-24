@@ -3,8 +3,8 @@
 #include <fstream>
 #include <sstream>
 
-#include "UserHandler.h"
-#include "User.h"
+#include "userHandler.h"
+#include "user.h"
 
 using std::string;
 
