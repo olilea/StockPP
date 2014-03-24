@@ -8,6 +8,7 @@ using std::string;
 // Static declarations;
 User UserHandler::loggedInUser;
 bool UserHandler::loggedInStatus = false;
+string UserHandler::userFilename;
 
 int UserHandler::login(string username) {
 	setLoggedInStatus(true);
@@ -28,6 +29,14 @@ bool UserHandler::getLoggedInStatus(void) {
 	return loggedInStatus;
 }
 
+string UserHandler::getUserFilename(void) {
+	return userFilename;
+}
+
 void UserHandler::setLoggedInStatus(bool status) {
 	loggedInStatus = status;
+}
+
+void UserHandler::setUserFilename(string fileName) {
+	userFilename = fileName;
 }

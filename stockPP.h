@@ -1,12 +1,16 @@
 #ifndef STOCKPP_H
 #define STOCKPP_H
 
+#include <string>
+
+using std::string;
+
 class UserInterface;
 
 class StockPP {
 	
 public:
-	static int begin(void);
+	static int begin(string userFilename = "userData.txt");
 
 	static UserInterface getUserInterface(void);
 
