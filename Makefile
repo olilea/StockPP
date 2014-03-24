@@ -8,10 +8,10 @@ FLAGS=	-Wall \
 EXECUTABLE=Stock++
 
 SRCS=	main.cpp \
-		StockPP.cpp \
-		UserInterface.cpp \
-		User.cpp \
-		UserHandler.cpp
+		stockPP.cpp \
+		userInterface.cpp \
+		user.cpp \
+		userHandler.cpp
 
 all:	main
 		@echo "Build finished"
