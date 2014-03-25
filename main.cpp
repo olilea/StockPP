@@ -14,10 +14,10 @@ int main(int argc, const char *argv[]) {
 
 		// If the user uses their own user file
 
-		string userFilename;
-		userFilename += argv[1];
+		string accountFilename;
+		accountFilename += argv[1];
 
-		return StockPP::begin(userFilename);
+		return StockPP::begin(accountFilename);
 	}
 }
 

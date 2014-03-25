@@ -1,11 +1,11 @@
-#ifndef USER_H
-#define USER_H
+#ifndef ACCOUNT_H
+#define ACCOUNT_H
 
 #include <string>
 
 using std::string;
 
-class User {
+class Account {
 	
 public:
 	void setName(string);

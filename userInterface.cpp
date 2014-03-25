@@ -1,6 +1,6 @@
 #include "userInterface.h"
 
-#include "accounts/userHandler.h"
+#include "accounts/accountHandler.h"
 
 #include <iostream>
 #include <string>
@@ -14,7 +14,7 @@ int UserInterface::mainMenu(void) {
 
 	bool chosen = false;
 
-	if (!UserHandler::getLoggedInStatus()) {
+	if (!AccountHandler::getLoggedInStatus()) {
 		cout << "YOU ARE NOT LOGGED IN - Login using the menu below" << endl;
 	}
 
@@ -45,7 +45,7 @@ int UserInterface::mainMenu(void) {
 					break;
 
 				case '5':
-					if (UserHandler::getLoggedInStatus()) {
+					if (AccountHandler::getLoggedInStatus()) {
 						logoutHandler();
 					} else {
 						fetchLoginInfo();
@@ -75,7 +75,7 @@ void UserInterface::menuChoices(void) {
 			<< "3: Buy stock\n"
 			<< "4: Sell stock\n";
 
-	if (UserHandler::getLoggedInStatus()) {
+	if (AccountHandler::getLoggedInStatus()) {
 		cout << "5: Logout\n";
 	} else {
 		cout << "5: Login\n";
@@ -92,10 +92,10 @@ void UserInterface::fetchLoginInfo(void) {
 
 	cin >> username;
 
-	UserHandler::login(username);
+	AccountHandler::login(username);
 
 }
 
 void UserInterface::logoutHandler(void) {
-	UserHandler::logout();
+	AccountHandler::logout();
 }

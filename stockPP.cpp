@@ -4,19 +4,19 @@
 #include "stockPP.h"
 #include "userInterface.h"
 
-#include "accounts/userHandler.h"
+#include "accounts/accountHandler.h"
 
 using std::string;
 
 // Static declarations
 UserInterface StockPP::ui;
 
-int StockPP::begin(string userFilename) {
+int StockPP::begin(string accountFilename) {
 
-	std::cout << "Using user database: " << userFilename << std::endl;
+	std::cout << "Using user database: " << accountFilename << std::endl;
 
-	UserHandler::setUserFilename(userFilename);
-	UserHandler::setupUserFile();
+	AccountHandler::setAccountFilename(accountFilename);
+	AccountHandler::setupAccountFile();
 
 	return ui.mainMenu();
 
