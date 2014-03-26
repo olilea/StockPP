@@ -13,6 +13,12 @@ using std::list;
 class Account {
 	
 public:
+
+	// Default constructor
+	Account(void);
+
+	Account(string, list<Stock>);
+
 	void setName(string);
 	void setCash(float);
 	void addCash(float);

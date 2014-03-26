@@ -9,6 +9,15 @@ using std::string;
 
 using std::list;
 
+Account::Account(void) {
+	// Empty default constructor
+}
+
+Account::Account(string accountName, list<Stock> listOfStock) {
+	name = accountName;
+	stocksHeld = listOfStock;
+}
+
 void Account::setName(string newName) {
 	name = newName;
 }

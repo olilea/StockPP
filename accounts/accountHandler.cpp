@@ -30,7 +30,7 @@ bool AccountHandler::login(string accountName) {
 	string accountData = readAccountFile();
 	
 	if (accountPresent(accountData, accountName)) {
-		//loggedInAccount = userFromAccountData(accountData, accountName);
+		//loggedInAccount = accountFromJson(accountData, accountName);
 	} else {
 		return false;
 	}
@@ -45,7 +45,8 @@ bool AccountHandler::logout(void) {
 	return true;
 }
 
-Account AccountHandler::userFromAccountData(string accountData, string accountName) {
+// Needs to add a constructeor 
+Account AccountHandler::accountFromJson(string accountData, string accountName) {
 
 }
 
@@ -169,11 +170,13 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 		}
 	}
 
+	/*
 	for (list<string>::const_iterator y = tokens.begin(); y != tokens.end(); ++y) {
 		cout << *y << " ";
 	}
 
 	cout << endl;
+	*/
 
 	return tokens;
 }
