@@ -49,37 +49,65 @@ Account AccountHandler::userFromAccountData(string accountData, string accountNa
 
 }
 
+// Not clean - assumes the input string is valid JSON
 bool AccountHandler::accountPresent(string accountData, string accountName) {
 
 	list<string> tokens = getJsonTokens(accountData);
 
+	// Used if the Account is not the first in the file
+	int braceCounter = 0;
+
 	// Pop first curly brace
 	tokens.pop_front();
+	braceCounter++;
+	// Pop "Accounts"
+	tokens.pop_front();
 
-	try {
+	// Pop curly brace
+	tokens.pop_front();
+	braceCounter++;
 
-		if (tokens.front() == "Accounts") {
+	if (tokens.front() == accountName) {
+		return true;
+	} else {
+		// Not the correct user, check the rest
+
+		// While not at the end of the file
+		while (braceCounter != 0) {
+
+			// Pop the account name
 			tokens.pop_front();
 
 			// Pop curly brace
 			tokens.pop_front();
+			braceCounter++;
 
-			if (tokens.front() == accountName) {
-				return true;
-			} else {
-				return false;
+			// While still parsing not needed user
+			while (braceCounter != 2) {
+				if (tokens.front() ==  "{") {
+					braceCounter++;
+				} else if (tokens.front() == "}") {
+					braceCounter--;
+				}
+				tokens.pop_front();
 			}
 
-		} else {
-			throw "INVALID ACCOUNT DATA";
+			// Check for the account name again
+			if (tokens.front() == accountName) {
+				return true;
+			} else if (tokens.front() == "}") {
+				// No more accounts in string
+				return false;
+			}
 		}
-	} catch (string e) {
-		cout << e << endl;
+
+		// Account not found
 		return false;
+
 	}
 }
 
-// Not clean - will not determine whether the file is valid JSON
+// Not clean - assumes the input string is valid JSON
 list<string> AccountHandler::getJsonTokens(string accountData) {
 
 	list<string> tokens;
@@ -114,7 +142,20 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 
 		} else if ((accountData.at(i) >= 48) && (accountData.at(i) <= 57)) {
 			// The character is a digit
-			tokens.push_back(string(1, accountData.at(i)));
+
+			// Set the substring container to the empy string
+			substring = "";
+
+			// Add the first digit of the number to the substring
+			substring += accountData.at(i);
+
+			// While not at the end and the next digit is a number
+			while (((i + 1) < stringLength) && (accountData.at(i + 1) >= 48) && (accountData.at(i) <= 57)) {
+				i++;
+				substring += accountData.at(i);
+			}
+
+			tokens.push_back(substring);
 
 		} else if (accountData.at(i) == '{') {
 			tokens.push_back("{");
