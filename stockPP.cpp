@@ -8,20 +8,12 @@
 
 using std::string;
 
-// Static declaration
-UserInterface StockPP::ui;
-
-int StockPP::begin(string accountFilename) {
-
-	std::cout << "Using user database: " << accountFilename << std::endl;
+StockPP::StockPP(string accountFilename) {
 
 	AccountHandler::setAccountFilename(accountFilename);
 	AccountHandler::setupAccountFile();
 
-	return ui.mainMenu();
+	std::cout << "Using user database: " << accountFilename << std::endl;
 
-}
-
-UserInterface StockPP::getUserInterface(void) {
-	return ui;
+	UserInterface::mainMenu();
 }

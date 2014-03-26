@@ -10,12 +10,7 @@ class UserInterface;
 class StockPP {
 	
 public:
-	static int begin(string accountFilename = "accountData.json");
-
-	static UserInterface getUserInterface(void);
-
-private:
-	static UserInterface ui;
+	StockPP(string accountFilename = "accountData.json");
 
 };
 

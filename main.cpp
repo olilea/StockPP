@@ -9,7 +9,7 @@ int main(int argc, const char *argv[]) {
 	if (argc == 1) {
 
 		// If the user does not specify a specific user file
-		return StockPP::begin();
+		StockPP spp;
 	} else {
 
 		// If the user uses their own user file
@@ -17,7 +17,8 @@ int main(int argc, const char *argv[]) {
 		string accountFilename;
 		accountFilename += argv[1];
 
-		return StockPP::begin(accountFilename);
+		StockPP spp(accountFilename);
 	}
+	return 0;
 }
 

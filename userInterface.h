@@ -8,14 +8,14 @@ using std::string;
 class UserInterface {
 
 public:
-	int mainMenu(void);
-	void menuChoices(void);
+	static void mainMenu(void);
+	static void menuChoices(void);
 
 private:
-	string input;
+	static string input;
 
-	string fetchLoginInfo(void);
-	void logoutHandler(void);
+	static string fetchLoginInfo(void);
+	static void logoutHandler(void);
 
 };
 

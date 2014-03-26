@@ -10,7 +10,9 @@ using std::cin;
 using std::endl;
 using std::string;
 
-int UserInterface::mainMenu(void) {
+string UserInterface::input;
+
+void UserInterface::mainMenu(void) {
 
 	bool chosen = false;
 
@@ -57,7 +59,7 @@ int UserInterface::mainMenu(void) {
 
 				case '6':
 					chosen = true;
-					return 0;
+					return;
 					break;
 				default:
 					cout << "Incorrect choice - Choose again..." << endl;
