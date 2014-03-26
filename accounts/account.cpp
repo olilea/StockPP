@@ -1,8 +1,13 @@
-#include <string>
-
 #include "account.h"
 
+#include "../stocks/stock.h"
+
+#include <string>
+#include <list>
+
 using std::string;
+
+using std::list;
 
 void Account::setName(string newName) {
 	name = newName;
@@ -23,3 +28,8 @@ string Account::getName(void) {
 float Account::getCash(void) {
 	return cash;
 }
+
+list<Stock> Account::getStocksHeld(void) {
+	return stocksHeld;
+}
+

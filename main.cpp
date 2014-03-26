@@ -1,6 +1,6 @@
-#include <string>
-
 #include "stockPP.h"
+
+#include <string>
 
 using std::string;
 

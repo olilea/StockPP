@@ -48,7 +48,9 @@ int UserInterface::mainMenu(void) {
 					if (AccountHandler::getLoggedInStatus()) {
 						logoutHandler();
 					} else {
-						fetchLoginInfo();
+						if (!AccountHandler::login(fetchLoginInfo())) {
+							cout << "Error - Could not find account" << endl;
+						}
 					}
 					chosen = true;
 					break;
@@ -84,7 +86,7 @@ void UserInterface::menuChoices(void) {
 	cout << "6: Exit\n" << endl;
 }
 
-void UserInterface::fetchLoginInfo(void) {
+string UserInterface::fetchLoginInfo(void) {
 
 	string username;
 
@@ -92,8 +94,7 @@ void UserInterface::fetchLoginInfo(void) {
 
 	cin >> username;
 
-	AccountHandler::login(username);
-
+	return username;
 }
 
 void UserInterface::logoutHandler(void) {

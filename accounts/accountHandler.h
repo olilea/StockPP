@@ -1,17 +1,26 @@
 #ifndef ACCOUNTHANDLER_H
 #define ACCOUNTHANDLER_H
 
+#include "account.h"
+
 #include <string>
+#include <list>
 
 using std::string;
+using std::list;
 
 class Account;
 
 class AccountHandler {
 
 public:
-	static int login(string);
-	static int logout(void);
+	static bool login(string);
+	static bool logout(void);
+
+	static Account userFromAccountData(string, string);
+	static bool accountPresent(string, string);
+
+	static list<string> getJsonTokens(string);
 	static string readAccountFile(void);
 	static void setupAccountFile(void);
 

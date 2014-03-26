@@ -1,10 +1,11 @@
+#include "accountHandler.h"
+#include "account.h"
+
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
-#include "accountHandler.h"
-#include "account.h"
+#include <list>
 
 using std::string;
 
@@ -17,20 +18,122 @@ using std::ios;
 
 using std::stringstream;
 
+using std::list;
+
 // Static declarations;
 Account AccountHandler::loggedInAccount;
 bool AccountHandler::loggedInStatus = false;
 string AccountHandler::accountFilename;
 
-int AccountHandler::login(string accountName) {
+bool AccountHandler::login(string accountName) {
+	
+	string accountData = readAccountFile();
+	
+	if (accountPresent(accountData, accountName)) {
+		//loggedInAccount = userFromAccountData(accountData, accountName);
+	} else {
+		return false;
+	}
+
 	setLoggedInStatus(true);
-	return 0;
+	return true;
 }
 
-int AccountHandler::logout(void) {
+bool AccountHandler::logout(void) {
 	setLoggedInStatus(false);
 
-	return 0;
+	return true;
+}
+
+Account AccountHandler::userFromAccountData(string accountData, string accountName) {
+
+}
+
+bool AccountHandler::accountPresent(string accountData, string accountName) {
+
+	list<string> tokens = getJsonTokens(accountData);
+
+	// Pop first curly brace
+	tokens.pop_front();
+
+	try {
+
+		if (tokens.front() == "Accounts") {
+			tokens.pop_front();
+
+			// Pop curly brace
+			tokens.pop_front();
+
+			if (tokens.front() == accountName) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} else {
+			throw "INVALID ACCOUNT DATA";
+		}
+	} catch (string e) {
+		cout << e << endl;
+		return false;
+	}
+}
+
+// Not clean - will not determine whether the file is valid JSON
+list<string> AccountHandler::getJsonTokens(string accountData) {
+
+	list<string> tokens;
+
+	string substring = "";
+
+	int stringLength = accountData.length();
+
+
+	for (int i = 0; i < stringLength; ++i) {
+
+		// If a double quote is found and there are more characters
+		if ((accountData.at(i) == '"') && ((i + 1) < stringLength)) {
+
+			// Move to the next character
+			i++;
+			// Set the substring container to the empty string
+			substring = "";
+
+			// While the paired double quote is not found and there are more characters
+			while (accountData.at(i) != '"') {
+				substring += accountData.at(i);
+				i++;
+
+				if (i >= stringLength) {
+					break;
+				}
+			}
+
+			// Push this string into the token list
+			tokens.push_back(substring);
+
+		} else if ((accountData.at(i) >= 48) && (accountData.at(i) <= 57)) {
+			// The character is a digit
+			tokens.push_back(string(1, accountData.at(i)));
+
+		} else if (accountData.at(i) == '{') {
+			tokens.push_back("{");
+
+		} else if (accountData.at(i) == '}') {
+			tokens.push_back("}");
+
+		} else {
+			continue;
+		}
+	}
+
+	for (list<string>::const_iterator y = tokens.begin(); y != tokens.end(); ++y) {
+		cout << *y << " ";
+	}
+
+	cout << endl;
+
+	return tokens;
 }
 
 string AccountHandler::readAccountFile(void) {
