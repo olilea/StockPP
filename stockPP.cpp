@@ -8,7 +8,7 @@
 
 using std::string;
 
-// Static declarations
+// Static declaration
 UserInterface StockPP::ui;
 
 int StockPP::begin(string accountFilename) {
@@ -20,8 +20,4 @@ int StockPP::begin(string accountFilename) {
 
 	return ui.mainMenu();
 
-}
-
-UserInterface StockPP::getUserInterface(void) {
-	return ui;
 }

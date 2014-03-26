@@ -1,8 +1,6 @@
 #ifndef ACCOUNTHANDLER_H
 #define ACCOUNTHANDLER_H
 
-#include "account.h"
-
 #include <string>
 #include <list>
 
