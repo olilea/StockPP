@@ -21,3 +21,7 @@ int StockPP::begin(string accountFilename) {
 	return ui.mainMenu();
 
 }
+
+UserInterface StockPP::getUserInterface(void) {
+	return ui;
+}
