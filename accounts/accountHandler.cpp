@@ -95,8 +95,9 @@ bool AccountHandler::accountPresent(string accountData, string accountName) {
 			// Check for the account name again
 			if (tokens.front() == accountName) {
 				return true;
+
+			// If another curly brace is found, no more users present.
 			} else if (tokens.front() == "}") {
-				// No more accounts in string
 				return false;
 			}
 		}
