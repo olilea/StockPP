@@ -74,8 +74,14 @@ bool AccountHandler::accountPresent(list<string> tokens, string accountName) {
 	tokens.pop_front();
 	braceCounter++;
 
-	// Pop inv comms
-	tokens.pop_front();
+	if (tokens.front() == "\"") {
+		// Pop inv comms
+		tokens.pop_front();
+	} else {
+		// No accounts exist in file
+		return false;
+	}
+
 
 	if (tokens.front() == accountName) {
 		return true;
@@ -351,14 +357,22 @@ string AccountHandler::readAccountFile(void) {
 
 void AccountHandler::setupAccountFile(void) {
 
-	ofstream accountFileOut;
+	ifstream accountFileOut;
 
-	string input;
+	accountFileOut.open(accountFilename);
 
-	// Open the file to append - create if it does not exit
-	accountFileOut.open(accountFilename, ios::app);
+	if (accountFileOut.ios::fail()) { // If the failbit is set because the file did not exist
+		// Clear the failbit
+		accountFileOut.ios::clear();
 
-	accountFileOut.close();
+		ofstream newFile;
+		newFile.open(accountFilename, ios::app);
+
+		newFile << "{\"Accounts\":{}}";
+		newFile.close();
+	} else {
+		accountFileOut.close();
+	}
 
 }
 
