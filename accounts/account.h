@@ -17,7 +17,9 @@ public:
 	// Default constructor
 	Account(void);
 
-	Account(string, list<Stock>);
+	Account(string, float, list<Stock>);
+
+	string toString();
 
 	void setName(string);
 	void setCash(float);

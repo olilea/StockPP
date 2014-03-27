@@ -15,8 +15,8 @@ public:
 	static bool login(string);
 	static bool logout(void);
 
-	static Account accountFromJson(string, string);
-	static bool accountPresent(string, string);
+	static Account accountFromJson(list<string>, string);
+	static bool accountPresent(list<string>, string);
 
 	static list<string> getJsonTokens(string);
 	static string readAccountFile(void);

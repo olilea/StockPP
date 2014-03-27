@@ -9,20 +9,12 @@ Stock::Stock(string tickerName, int stockOwned) {
 	owned = stockOwned;
 }
 
-void Stock::setValue(float newValue) {
-	value = newValue;
-}
-
 void Stock::setOwned(int stockOwned) {
 	owned = stockOwned;
 }
 
 string Stock::getTicker(void) {
 	return ticker;
-}
-
-float Stock::getValue(void) {
-	return value;
 }
 
 int Stock::getOwned(void) {

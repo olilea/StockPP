@@ -28,9 +28,13 @@ string AccountHandler::accountFilename;
 bool AccountHandler::login(string accountName) {
 	
 	string accountData = readAccountFile();
+	list<string> jsonTokens = getJsonTokens(accountData);
 	
-	if (accountPresent(accountData, accountName)) {
-		//loggedInAccount = accountFromJson(accountData, accountName);
+	if (accountPresent(jsonTokens, accountName)) {
+		loggedInAccount = accountFromJson(jsonTokens, accountName);
+
+		cout << loggedInAccount.toString() << endl;
+
 	} else {
 		return false;
 	}
@@ -40,20 +44,52 @@ bool AccountHandler::login(string accountName) {
 }
 
 bool AccountHandler::logout(void) {
+
+	//saveAccount(void);
 	setLoggedInStatus(false);
 
 	return true;
 }
 
-// Needs to add a constructeor 
-Account AccountHandler::accountFromJson(string accountData, string accountName) {
+Account AccountHandler::accountFromJson(list<string> tokens, string accountName) {
 
+	list<Stock> accountStock;
+	float cash;
+
+	string tempStockName;
+	int tempStockAmount;
+
+	while (tokens.front() != accountName) {
+		tokens.pop_front();
+	}
+
+	// Pop account name, curly brace and "Cash"
+	for (int i = 0; i < 3; i++) {
+		tokens.pop_front();
+	}
+
+	// Convert string to c_string and then call atof on the c_string
+	cash = ::atof(tokens.front().c_str());
+
+	// Pop cash, "Stocks" and curly brace
+	for (int i = 0; i < 3; i++) {
+		tokens.pop_front();
+	}
+
+	while (tokens.front() != "}") {
+		tempStockName = tokens.front();
+		tokens.pop_front();
+		tempStockAmount = ::atoi(tokens.front().c_str());
+		tokens.pop_front();
+
+		accountStock.push_back(Stock(tempStockName, tempStockAmount));
+	}
+
+	return Account(accountName, cash, accountStock);
 }
 
 // Not clean - assumes the input string is valid JSON
-bool AccountHandler::accountPresent(string accountData, string accountName) {
-
-	list<string> tokens = getJsonTokens(accountData);
+bool AccountHandler::accountPresent(list<string> tokens, string accountName) {
 
 	// Used if the Account is not the first in the file
 	int braceCounter = 0;
@@ -151,8 +187,9 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 			// Add the first digit of the number to the substring
 			substring += accountData.at(i);
 
-			// While not at the end and the next digit is a number
-			while (((i + 1) < stringLength) && (accountData.at(i + 1) >= 48) && (accountData.at(i) <= 57)) {
+			// While not at the end and the next digit is a number or a dot
+			while (((i + 1) < stringLength) && ((accountData.at(i + 1) == '.') || 
+					((accountData.at(i + 1) >= 48) && (accountData.at(i + 1) <= 57)))) {
 				i++;
 				substring += accountData.at(i);
 			}
