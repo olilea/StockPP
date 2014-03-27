@@ -8,9 +8,6 @@
 #include <list>
 #include <vector>
 
-// The escape character sequence \" doesn't seem to work for a char
-#define INV_COMMS 34
-
 // At the bottom of this file is an example of a typical JSON file containing
 // valid user data
 
@@ -218,7 +215,7 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 			// Push inverted commas token
 			tokens.push_back("\"");
 
-		} else if ((accountData.at(i) >= 48) && (accountData.at(i) <= 57)) {
+		} else if ((accountData.at(i) >= '0') && (accountData.at(i) <= '9')) {
 			// The character is a digit
 
 			// Set the substring container to the empy string
@@ -229,7 +226,7 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 
 			// While not at the end and the next digit is a number or a dot
 			while (((i + 1) < stringLength) && ((accountData.at(i + 1) == '.') || 
-					((accountData.at(i + 1) >= 48) && (accountData.at(i + 1) <= 57)))) {
+					((accountData.at(i + 1) >= '0') && (accountData.at(i + 1) <= '9')))) {
 				i++;
 				substring += accountData.at(i);
 			}
