@@ -24,6 +24,7 @@ void UserInterface::mainMenu(void) {
 
 		menuChoices();
 		cin >> input;
+		cout << endl;
 
 		while (!chosen) {
 
@@ -35,6 +36,11 @@ void UserInterface::mainMenu(void) {
 					break;
 
 				case '2':
+					if (AccountHandler::getLoggedInStatus()) {
+						cout << AccountHandler::getLoggedInAccount().toString() << endl;
+					} else {
+						cout << "You are not logged in...\n" << endl;
+					}
 					chosen = true;
 					break;
 
@@ -48,10 +54,14 @@ void UserInterface::mainMenu(void) {
 
 				case '5':
 					if (AccountHandler::getLoggedInStatus()) {
+						// If logged in
 						logoutHandler();
 					} else {
-						if (!AccountHandler::login(fetchLoginInfo())) {
-							cout << "Error - Could not find account" << endl;
+						// If not logged in
+						if (AccountHandler::login(fetchLoginInfo())) {
+							cout << "Login successful...\n" << endl;
+						} else {
+							cout << "Error - Could not find account\n" << endl;
 						}
 					}
 					chosen = true;
@@ -72,7 +82,7 @@ void UserInterface::mainMenu(void) {
 
 void UserInterface::menuChoices(void) {
 
-	cout << "Main Menu:\n\rPlease make your selection from below\n" << endl;
+	cout << "Main Menu:" << endl;
 
 	cout << "1: Lookup stock by ticker\n"
 			<< "2: View stock in portfolio\n"

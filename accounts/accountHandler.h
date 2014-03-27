@@ -1,13 +1,13 @@
 #ifndef ACCOUNTHANDLER_H
 #define ACCOUNTHANDLER_H
 
+#include "account.h"
+
 #include <string>
 #include <list>
 
 using std::string;
 using std::list;
-
-class Account;
 
 class AccountHandler {
 

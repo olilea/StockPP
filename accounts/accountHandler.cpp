@@ -33,8 +33,6 @@ bool AccountHandler::login(string accountName) {
 	if (accountPresent(jsonTokens, accountName)) {
 		loggedInAccount = accountFromJson(jsonTokens, accountName);
 
-		cout << loggedInAccount.toString() << endl;
-
 	} else {
 		return false;
 	}

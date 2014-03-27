@@ -13,7 +13,7 @@ StockPP::StockPP(string accountFilename) {
 	AccountHandler::setAccountFilename(accountFilename);
 	AccountHandler::setupAccountFile();
 
-	std::cout << "Using user database: " << accountFilename << std::endl;
+	std::cout << "\nUsing user database: " << accountFilename << std::endl;
 
 	UserInterface::mainMenu();
 }

@@ -26,14 +26,14 @@ string Account::toString(void) {
 	list<Stock> stocks = stocksHeld;
 	int numOfStocks = stocks.size();
 
-	accountString += name + "\n";
-	accountString += "Cash Held: " + to_string(cash) + "\n";
+	accountString += "Name:\t\t" + name + "\n";
+	accountString += "Cash:\t\t" + to_string(cash) + "\n";
 
-	accountString += "Stocks Held:\n";
+	accountString += "Stocks:";
 
 	while (numOfStocks != 0) {
-		accountString += stocks.front().getTicker() + " ";
-		accountString += to_string(stocks.front().getOwned()) + "\n";
+		accountString += "\t\t" + stocks.front().getTicker();
+		accountString += "\t" + to_string(stocks.front().getOwned()) + "\n";
 		stocks.pop_front();
 
 		numOfStocks--;
