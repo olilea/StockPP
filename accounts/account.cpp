@@ -50,13 +50,16 @@ string Account::toJsonString(void) {
 
 	jsonString += "\"" + name + "\"" + ": { \"Cash\": " + to_string(cash) + ", \"Stocks\": { ";
 
-	while (numOfStocks != 1) {
-		jsonString += "\"" + stocks.front().getTicker() + "\": " + to_string(stocks.front().getOwned()) + ", ";
-		stocks.pop_front();
+	if (numOfStocks != 0) {
+		while (numOfStocks != 1) {
+			jsonString += "\"" + stocks.front().getTicker() + "\": " + to_string(stocks.front().getOwned()) + ", ";
+			stocks.pop_front();
 
-		numOfStocks--;
+			numOfStocks--;
+		}
+		jsonString += "\"" + stocks.front().getTicker() + "\": " + to_string(stocks.front().getOwned());
 	}
-	jsonString += "\"" + stocks.front().getTicker() + "\": " + to_string(stocks.front().getOwned());
+	
 	jsonString += " } }";
 
 	return jsonString;

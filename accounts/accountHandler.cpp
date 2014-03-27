@@ -40,7 +40,7 @@ bool AccountHandler::login(string accountName) {
 	if (accountPresent(jsonTokens, accountName)) {
 		loggedInAccount = accountFromJson(jsonTokens, accountName);
 	} else {
-		return false;
+		loggedInAccount = Account(accountName, 1000.00, list<Stock>());
 	}
 
 	setLoggedInStatus(true);
@@ -291,6 +291,74 @@ string AccountHandler::createNewSave(void) {
 	cout << endl;
 
 	int braceCounter = 0;
+
+	// If the account to save is not already in the save file
+	if (!accountPresent(fileJson, loggedInAccount.getName())) {
+
+		// Check to see if the savefile has any accounts in it at all
+		list<string>::iterator it = fileJson.begin();
+		std::advance(it, 7);
+		if (*it == "}") {
+
+			for (int a = 0; a < 6; ++a) {
+				newSave += fileJson.front();
+				fileJson.pop_front();
+			}
+			for (int b = 0; b < sizeAccountJson; ++b) {
+				newSave += accountJson.front();
+				fileJson.pop_front();
+			}
+			sizeFileJson = fileJson.size();
+			for (int c = 0; c < sizeFileJson; ++c) {
+				newSave += accountJson.front();
+				fileJson.pop_front();
+			}
+
+			return newSave;
+
+		} else { // Accounts present in the savefile, but not the current account
+
+			// Pop first curly brace, inv comms, "Accounts", inv comms, colon, curly brace
+			for (int d = 0; d < 6; ++d) {
+				newSave += fileJson.front();
+				fileJson.pop_front();
+			}
+			braceCounter += 2;
+
+			// Get to the end of the users in the file, just before the ending curly braces
+			while (braceCounter != 1) {
+				if (fileJson.front() == "{") {
+					braceCounter++;
+				} else if (fileJson.front() == "}") {
+					braceCounter--;
+
+					if (braceCounter == 1) {
+						// Before the second last brace is added to newSave
+						break;
+					}
+				}
+				newSave += fileJson.front();
+				fileJson.pop_front();
+			}
+
+			// Add new account save
+			newSave += ",";
+			for (int e = 0; e < sizeAccountJson; ++e) {
+				newSave += accountJson.front();
+				accountJson.pop_front();
+			}
+			// Finish adding previous save data
+			sizeFileJson = fileJson.size();
+			for (int f = 0; f < sizeFileJson; ++f) {
+				newSave += fileJson.front();
+				fileJson.pop_front();
+			}
+
+			return newSave;
+		}
+	}
+
+	// Otherwise... The account is already present in the file
 
 	// Remove first inv comm
 	accountJson.pop_front();

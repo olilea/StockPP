@@ -71,6 +71,14 @@ void UserInterface::mainMenu(void) {
 					chosen = true;
 					return;
 					break;
+
+				case '7':
+					if (!AccountHandler::getLoggedInStatus()) {
+						AccountHandler::login(fetchLoginInfo());
+						chosen = true;
+						break;
+					}
+					// Else, drop down to default as the option is not available
 				default:
 					cout << "Incorrect choice - Choose again..." << endl;
 					cin >> input;
@@ -96,6 +104,10 @@ void UserInterface::menuChoices(void) {
 	}
 
 	cout << "6: Exit\n" << endl;
+
+	if (!AccountHandler::getLoggedInStatus()) {
+		cout << "7: Create new account" << endl;
+	}
 }
 
 string UserInterface::fetchLoginInfo(void) {
