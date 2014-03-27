@@ -19,7 +19,8 @@ public:
 
 	Account(string, float, list<Stock>);
 
-	string toString();
+	string toString(void);
+	string toJson(void);
 
 	void setName(string);
 	void setCash(float);

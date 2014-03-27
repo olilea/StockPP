@@ -7,7 +7,14 @@
 #include <sstream>
 #include <list>
 
+// The escape character sequence \" doesn't seem to work for a char
+#define INV_COMMS 34
+
+// At the bottom of this file is an example of a typical JSON file containing
+// valid user data
+
 using std::string;
+using std::to_string;
 
 using std::cout;
 using std::endl;
@@ -33,6 +40,8 @@ bool AccountHandler::login(string accountName) {
 	if (accountPresent(jsonTokens, accountName)) {
 		loggedInAccount = accountFromJson(jsonTokens, accountName);
 
+		cout << loggedInAccount.toJson() << endl;
+
 	} else {
 		return false;
 	}
@@ -43,47 +52,10 @@ bool AccountHandler::login(string accountName) {
 
 bool AccountHandler::logout(void) {
 
-	//saveAccount(void);
+	saveAccount();
 	setLoggedInStatus(false);
 
 	return true;
-}
-
-Account AccountHandler::accountFromJson(list<string> tokens, string accountName) {
-
-	list<Stock> accountStock;
-	float cash;
-
-	string tempStockName;
-	int tempStockAmount;
-
-	while (tokens.front() != accountName) {
-		tokens.pop_front();
-	}
-
-	// Pop account name, curly brace and "Cash"
-	for (int i = 0; i < 3; i++) {
-		tokens.pop_front();
-	}
-
-	// Convert string to c_string and then call atof on the c_string
-	cash = ::atof(tokens.front().c_str());
-
-	// Pop cash, "Stocks" and curly brace
-	for (int i = 0; i < 3; i++) {
-		tokens.pop_front();
-	}
-
-	while (tokens.front() != "}") {
-		tempStockName = tokens.front();
-		tokens.pop_front();
-		tempStockAmount = ::atoi(tokens.front().c_str());
-		tokens.pop_front();
-
-		accountStock.push_back(Stock(tempStockName, tempStockAmount));
-	}
-
-	return Account(accountName, cash, accountStock);
 }
 
 // Not clean - assumes the input string is valid JSON
@@ -95,12 +67,18 @@ bool AccountHandler::accountPresent(list<string> tokens, string accountName) {
 	// Pop first curly brace
 	tokens.pop_front();
 	braceCounter++;
-	// Pop "Accounts"
-	tokens.pop_front();
+
+	// Pop inv comms, "Accounts", inv comms and colon
+	for (int i = 0; i < 4; i++) {
+		tokens.pop_front();
+	}
 
 	// Pop curly brace
 	tokens.pop_front();
 	braceCounter++;
+
+	// Pop inv comms
+	tokens.pop_front();
 
 	if (tokens.front() == accountName) {
 		return true;
@@ -110,8 +88,10 @@ bool AccountHandler::accountPresent(list<string> tokens, string accountName) {
 		// While not at the end of the file
 		while (braceCounter != 0) {
 
-			// Pop the account name
-			tokens.pop_front();
+			// Pop account name, inv comms and colon
+			for (int i = 0; i < 3; i++) {
+				tokens.pop_front();
+			}
 
 			// Pop curly brace
 			tokens.pop_front();
@@ -128,8 +108,14 @@ bool AccountHandler::accountPresent(list<string> tokens, string accountName) {
 			}
 
 			// Check for the account name again
-			if (tokens.front() == accountName) {
-				return true;
+			if (tokens.front() == ",") {
+				tokens.pop_front();
+				// Pop inv comms
+				tokens.pop_front();
+
+				if (tokens.front() == accountName) {
+					return true;
+				}
 
 			// If another curly brace is found, no more users present.
 			} else if (tokens.front() == "}") {
@@ -141,6 +127,56 @@ bool AccountHandler::accountPresent(list<string> tokens, string accountName) {
 		return false;
 
 	}
+}
+
+Account AccountHandler::accountFromJson(list<string> tokens, string accountName) {
+
+	list<Stock> accountStock;
+	float cash;
+
+	string tempStockName;
+	int tempStockAmount;
+
+	while (tokens.front() != accountName) {
+		tokens.pop_front();
+	}
+
+	// Pop account name, inverted commas, colon, curly brace, inv comms, "Cash", inv comms and colon
+	for (int i = 0; i < 8; i++) {
+		tokens.pop_front();
+	}
+
+	// Convert string to c_string and then call atof on the c_string
+	cash = ::atof(tokens.front().c_str());
+
+	// Pop cash, comma, inv comms, "Stocks", inv comms, colon and curly brace
+	for (int i = 0; i < 7; i++) {
+		tokens.pop_front();
+	}
+
+	while (tokens.front() != "}") {
+
+		// Pop inv comms
+		tokens.pop_front();
+		tempStockName = tokens.front();
+
+		// Pop ticker, inv comms and colon
+		for (int i = 0; i < 3; ++i) {
+			tokens.pop_front();
+		}
+
+		tempStockAmount = ::atoi(tokens.front().c_str());
+		tokens.pop_front();
+
+		// Remove comma if present
+		if (tokens.front() == ",") {
+			tokens.pop_front();
+		}
+
+		accountStock.push_back(Stock(tempStockName, tempStockAmount));
+	}
+
+	return Account(accountName, cash, accountStock);
 }
 
 // Not clean - assumes the input string is valid JSON
@@ -163,6 +199,9 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 			// Set the substring container to the empty string
 			substring = "";
 
+			// Push inverted commas token
+			tokens.push_back("\"");
+
 			// While the paired double quote is not found and there are more characters
 			while (accountData.at(i) != '"') {
 				substring += accountData.at(i);
@@ -175,6 +214,9 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 
 			// Push this string into the token list
 			tokens.push_back(substring);
+
+			// Push inverted commas token
+			tokens.push_back("\"");
 
 		} else if ((accountData.at(i) >= 48) && (accountData.at(i) <= 57)) {
 			// The character is a digit
@@ -196,24 +238,33 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 
 		} else if (accountData.at(i) == '{') {
 			tokens.push_back("{");
-
 		} else if (accountData.at(i) == '}') {
 			tokens.push_back("}");
-
+		} else if (accountData.at(i) == ':') {
+			tokens.push_back(":");
+		} else if (accountData.at(i) == ',') {
+			tokens.push_back(",");
 		} else {
 			continue;
 		}
 	}
 
+	// Prints out the tokens collected
 	/*
 	for (list<string>::const_iterator y = tokens.begin(); y != tokens.end(); ++y) {
 		cout << *y << " ";
 	}
-
 	cout << endl;
 	*/
 
 	return tokens;
+}
+
+bool AccountHandler::saveAccount(void) {
+
+	string accountJson = loggedInAccount.toJson();
+	string fileData = readAccountFile();
+
 }
 
 string AccountHandler::readAccountFile(void) {
@@ -262,3 +313,24 @@ void AccountHandler::setLoggedInStatus(bool status) {
 void AccountHandler::setAccountFilename(string fileName) {
 	accountFilename = fileName;
 }
+
+/*
+{
+  "Accounts": {
+    "Oli": {
+      "Cash": 50.0,
+      "Stocks": {
+        "AAPL": 4,
+        "XOM": 10,
+        "YHOO": 54
+      }
+    },
+    "Dan": {
+      "Cash": 1000,
+      "Stocks": {
+        "XOM": 15
+      }
+    }
+  }
+}
+*/

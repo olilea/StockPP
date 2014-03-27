@@ -42,6 +42,26 @@ string Account::toString(void) {
 	return accountString;
 }
 
+string Account::toJson(void) {
+
+	string jsonString = "";
+	list<Stock> stocks = stocksHeld;
+	int numOfStocks = stocks.size();
+
+	jsonString += "\"" + name + "\"" + ": { \"Cash\": " + to_string(cash) + ", \"Stocks\": { ";
+
+	while (numOfStocks != 1) {
+		jsonString += "\"" + stocks.front().getTicker() + "\": " + to_string(stocks.front().getOwned()) + ", ";
+		stocks.pop_front();
+
+		numOfStocks--;
+	}
+	jsonString += "\"" + stocks.front().getTicker() + "\": " + to_string(stocks.front().getOwned());
+	jsonString += " } }";
+
+	return jsonString;
+}
+
 void Account::setName(string newName) {
 	name = newName;
 }
