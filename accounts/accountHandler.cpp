@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include <vector>
 
 // The escape character sequence \" doesn't seem to work for a char
 #define INV_COMMS 34
@@ -27,6 +28,8 @@ using std::stringstream;
 
 using std::list;
 
+using std::vector;
+
 // Static declarations;
 Account AccountHandler::loggedInAccount;
 bool AccountHandler::loggedInStatus = false;
@@ -39,9 +42,6 @@ bool AccountHandler::login(string accountName) {
 	
 	if (accountPresent(jsonTokens, accountName)) {
 		loggedInAccount = accountFromJson(jsonTokens, accountName);
-
-		cout << loggedInAccount.toJson() << endl;
-
 	} else {
 		return false;
 	}
@@ -262,9 +262,80 @@ list<string> AccountHandler::getJsonTokens(string accountData) {
 
 bool AccountHandler::saveAccount(void) {
 
-	string accountJson = loggedInAccount.toJson();
-	string fileData = readAccountFile();
+	string saveString = createNewSave();
 
+	ofstream accountFileOut;
+	accountFileOut.open(accountFilename, ios::trunc);
+
+	accountFileOut << saveString;
+
+	accountFileOut.close();
+
+	return true;
+
+}
+
+string AccountHandler::createNewSave(void) {
+
+	string newSave = "";
+
+	list<string> fileJson = getJsonTokens(readAccountFile());
+	list<string> accountJson = getJsonTokens(loggedInAccount.toJsonString());
+
+	int sizeFileJson = fileJson.size();
+	int sizeAccountJson = accountJson.size();
+
+	cout << endl;
+
+	int braceCounter = 0;
+
+	// Remove first inv comm
+	accountJson.pop_front();
+	sizeAccountJson--;
+
+	for (int i = 0; i < sizeFileJson; ++i) {
+
+		if (fileJson.front() == loggedInAccount.getName()) {
+
+			// Pop account name, inv comm, colon and curly brace
+			for (int x = 0; x < 4; ++x) {
+				fileJson.pop_front();
+			}
+			braceCounter++;
+
+			// Remove previous account data
+			while (braceCounter != 0) {
+
+				if (fileJson.front() == "{") {
+					braceCounter++;
+				} else if (fileJson.front() == "}") {
+					braceCounter--;
+				}
+				fileJson.pop_front();
+			}
+
+			// Add new account data
+			for (int y = 0; y < sizeAccountJson; ++y) {
+				newSave += accountJson.front();
+				accountJson.pop_front();
+			}
+
+			// Break main loop
+			break;
+
+		} else {
+			newSave += fileJson.front();
+			fileJson.pop_front();
+		}
+	}
+
+	sizeFileJson = fileJson.size();
+	for (int z = 0; z < sizeFileJson; ++z) {
+		newSave += fileJson.front();
+		fileJson.pop_front();
+	}
+
+	return newSave;
 }
 
 string AccountHandler::readAccountFile(void) {

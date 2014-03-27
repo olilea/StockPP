@@ -20,6 +20,7 @@ public:
 	static list<string> getJsonTokens(string);
 
 	static bool saveAccount(void);
+	static string createNewSave(void);
 	static string readAccountFile(void);
 	static void setupAccountFile(void);
 

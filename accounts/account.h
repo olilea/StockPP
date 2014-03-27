@@ -20,7 +20,7 @@ public:
 	Account(string, float, list<Stock>);
 
 	string toString(void);
-	string toJson(void);
+	string toJsonString(void);
 
 	void setName(string);
 	void setCash(float);

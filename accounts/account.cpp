@@ -42,7 +42,7 @@ string Account::toString(void) {
 	return accountString;
 }
 
-string Account::toJson(void) {
+string Account::toJsonString(void) {
 
 	string jsonString = "";
 	list<Stock> stocks = stocksHeld;
