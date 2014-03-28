@@ -10,6 +10,8 @@ class Stock {
 public:
 	Stock(string, int);
 
+	void subtractOwned(int);
+
 	void setOwned(int);
 	
 	string getTicker(void);

@@ -22,9 +22,15 @@ public:
 	string toString(void);
 	string toJsonString(void);
 
+	void addCash(float);
+	void subtractCash(float);
+
+	void addStock(string, int);
+	void subtractStock(string, int);
+	void removeStock(string);
+
 	void setName(string);
 	void setCash(float);
-	void addCash(float);
 
 	string getName(void);
 	float getCash(void);

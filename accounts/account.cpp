@@ -65,16 +65,55 @@ string Account::toJsonString(void) {
 	return jsonString;
 }
 
+void Account::addCash(float cashToAdd) {
+	cash += cashToAdd;
+}
+
+void Account::subtractCash(float cashToSubtract) {
+	cash -= cashToSubtract;
+}
+
+void Account::addStock(string stockTicker, int quantityToAdd) {
+	stocksHeld.push_back(Stock(stockTicker, quantityToAdd));
+}
+
+void Account::subtractStock(string stockTicker, int quantityToRemove) {
+
+	for (list<Stock>::iterator i = stocksHeld.begin(); i == stocksHeld.end(); ++i) {
+
+		if (i->getTicker() == stockTicker) {
+			i->subtractOwned(quantityToRemove);
+
+			if (i->getOwned() == 0) {
+				//removeStock(stockTicker);
+			}
+
+			break;
+		}
+	}
+}
+
+/*
+void Account::removeStock(string stockTicker) {
+
+	for (list<Stock>::iterator i = stocksHeld.begin(); i == stocksHeld.end(); ++i) {
+
+		if (i->getTicker() == stockTicker) {
+
+			// Move to the next Stock so the previous one can be removed
+			stocksHeld.remove(i++);
+			break;
+		}
+	}
+}
+*/
+
 void Account::setName(string newName) {
 	name = newName;
 }
 
 void Account::setCash(float newCash) {
 	cash = newCash;
-}
-
-void Account::addCash(float cashToAdd) {
-	cash += cashToAdd;
 }
 
 string Account::getName(void) {
