@@ -6,7 +6,7 @@ A small game to play with virtual money on the real stock market from within a U
 
 No dependencies required, simply:
 
-"""shell
+```shell
 make
 ./Stock++
-"""
+```
