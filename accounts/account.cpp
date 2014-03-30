@@ -4,6 +4,7 @@
 
 #include <string>
 #include <list>
+#include <iostream>
 
 using std::string;
 
@@ -73,12 +74,15 @@ void Account::subtractCash(float cashToSubtract) {
 	cash -= cashToSubtract;
 }
 
-
-// Needs to be updated to determine if the stock already exists in the stockHeld list
 void Account::addStock(string stockTicker, int quantityToAdd) {
+
+	std::cout << "HERE" << std::endl;
 	
 	// If the stock is already in the stocksHeld array, update the amount held
-	for (list<Stock>::iterator i = stocksHeld.begin(); i == stocksHeld.end(); ++i) {
+	for (list<Stock>::iterator i = stocksHeld.begin(); i != stocksHeld.end(); ++i) {
+
+		std::cout << "HELLO" << std::endl;
+		std::cout << i->getTicker() << std::endl; // TEST
 
 		if (i->getTicker() == stockTicker) {
 			i->addOwned(quantityToAdd);
@@ -92,7 +96,7 @@ void Account::addStock(string stockTicker, int quantityToAdd) {
 
 void Account::subtractStock(string stockTicker, int quantityToRemove) {
 
-	for (list<Stock>::iterator i = stocksHeld.begin(); i == stocksHeld.end(); ++i) {
+	for (list<Stock>::iterator i = stocksHeld.begin(); i != stocksHeld.end(); ++i) {
 
 		if (i->getTicker() == stockTicker) {
 			i->subtractOwned(quantityToRemove);
@@ -108,7 +112,7 @@ void Account::subtractStock(string stockTicker, int quantityToRemove) {
 
 void Account::removeStock(string stockTicker) {
 
-	for (list<Stock>::iterator i = stocksHeld.begin(); i == stocksHeld.end(); ++i) {
+	for (list<Stock>::iterator i = stocksHeld.begin(); i != stocksHeld.end(); ++i) {
 
 		if (i->getTicker() == stockTicker) {
 

@@ -12,7 +12,8 @@ SRCS=	main.cpp \
 		userInterface.cpp \
 		accounts/account.cpp \
 		accounts/accountHandler.cpp \
-		stocks/stock.cpp
+		stocks/stock.cpp \
+		stocks/stockHandler.cpp
 
 all:	main
 		@echo "Build finished"

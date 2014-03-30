@@ -13,6 +13,7 @@ using std::string;
 
 string UserInterface::input;
 string UserInterface::output;
+string UserInterface::scratch;
 
 void UserInterface::mainMenu(void) {
 
@@ -33,10 +34,7 @@ void UserInterface::mainMenu(void) {
 			switch (input[0]) {
 
 				case '1':
-					// Fetches stock data, parses it and prints it
-					//output = StockHandler::toPrettyString(StockHandler::parseStockData(StockHandler::getStockData(getTicker())));
-
-					cout << output;
+					lookupStockHandler();
 					chosen = true;
 					break;
 
@@ -50,10 +48,20 @@ void UserInterface::mainMenu(void) {
 					break;
 
 				case '3':
+					if (AccountHandler::getLoggedInStatus()) {
+						buyStockHandler();
+					} else {
+						cout << "You are not logged in...\n" << endl;
+					}
 					chosen = true;
 					break;
 
 				case '4':
+					if (AccountHandler::getLoggedInStatus()) {
+						sellStockHandler();
+					} else {
+						cout << "You are not logged in...\n" << endl;
+					}
 					chosen = true;
 					break;
 
@@ -108,7 +116,7 @@ void UserInterface::menuChoices(void) {
 		cout << "5: Login\n";
 	}
 
-	cout << "6: Exit\n" << endl;
+	cout << "6: Exit" << endl;
 
 	if (!AccountHandler::getLoggedInStatus()) {
 		cout << "7: Create new account" << endl;
@@ -133,6 +141,45 @@ string UserInterface::getUsername(void) {
 	cin >> username;
 
 	return username;
+}
+
+int UserInterface::getAmount(void) {
+
+	int amount;
+
+	cout << "Please enter the amount:" << endl;
+	cin >> amount;
+
+	return amount;
+}
+
+// Fetches stock data, parses it and prints it
+void UserInterface::lookupStockHandler(void) {
+	string ticker = getTicker();
+
+	if (StockHandler::stockExists(ticker)) {
+		cout << StockHandler::toPrettyString(StockHandler::parseStockData(StockHandler::getStockData(ticker))) << endl;
+	} else {
+		cout << "This stock does not exist..." << endl;
+	}
+}
+
+void UserInterface::buyStockHandler(void) {
+	string ticker = getTicker();
+
+	if (StockHandler::stockExists(ticker)) {
+
+		// TODO
+	}
+}
+
+void UserInterface::sellStockHandler(void) {
+	string ticker = getTicker();
+
+	if (StockHandler::stockExists(ticker)) {
+
+		// TODO
+	}
 }
 
 void UserInterface::logoutHandler(void) {
