@@ -73,7 +73,20 @@ void Account::subtractCash(float cashToSubtract) {
 	cash -= cashToSubtract;
 }
 
+
+// Needs to be updated to determine if the stock already exists in the stockHeld list
 void Account::addStock(string stockTicker, int quantityToAdd) {
+	
+	// If the stock is already in the stocksHeld array, update the amount held
+	for (list<Stock>::iterator i = stocksHeld.begin(); i == stocksHeld.end(); ++i) {
+
+		if (i->getTicker() == stockTicker) {
+			i->addOwned(quantityToAdd);
+			return;
+		}
+	}
+
+	// Otherwise, add a new stock to stocksHeld
 	stocksHeld.push_back(Stock(stockTicker, quantityToAdd));
 }
 
@@ -85,7 +98,7 @@ void Account::subtractStock(string stockTicker, int quantityToRemove) {
 			i->subtractOwned(quantityToRemove);
 
 			if (i->getOwned() == 0) {
-				//removeStock(stockTicker);
+				removeStock(stockTicker);
 			}
 
 			break;
@@ -93,7 +106,6 @@ void Account::subtractStock(string stockTicker, int quantityToRemove) {
 	}
 }
 
-/*
 void Account::removeStock(string stockTicker) {
 
 	for (list<Stock>::iterator i = stocksHeld.begin(); i == stocksHeld.end(); ++i) {
@@ -101,12 +113,11 @@ void Account::removeStock(string stockTicker) {
 		if (i->getTicker() == stockTicker) {
 
 			// Move to the next Stock so the previous one can be removed
-			stocksHeld.remove(i++);
+			stocksHeld.erase(i++);
 			break;
 		}
 	}
 }
-*/
 
 void Account::setName(string newName) {
 	name = newName;

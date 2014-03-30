@@ -10,6 +10,7 @@ class Stock {
 public:
 	Stock(string, int);
 
+	void addOwned(int);
 	void subtractOwned(int);
 
 	void setOwned(int);

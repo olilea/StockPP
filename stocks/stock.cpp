@@ -9,6 +9,10 @@ Stock::Stock(string tickerName, int stockOwned) {
 	owned = stockOwned;
 }
 
+void Stock::addOwned(int quantity) {
+	owned += quantity;
+}
+
 void Stock::subtractOwned(int quantity) {
 	if (owned > quantity) {
 		owned -= quantity;
