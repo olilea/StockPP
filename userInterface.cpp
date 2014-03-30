@@ -1,6 +1,7 @@
 #include "userInterface.h"
 
 #include "accounts/accountHandler.h"
+#include "stocks/stockHandler.h"
 
 #include <iostream>
 #include <string>
@@ -11,6 +12,7 @@ using std::endl;
 using std::string;
 
 string UserInterface::input;
+string UserInterface::output;
 
 void UserInterface::mainMenu(void) {
 
@@ -31,7 +33,10 @@ void UserInterface::mainMenu(void) {
 			switch (input[0]) {
 
 				case '1':
-					cout << "It works" << endl;
+					// Fetches stock data, parses it and prints it
+					//output = StockHandler::toPrettyString(StockHandler::parseStockData(StockHandler::getStockData(getTicker())));
+
+					cout << output;
 					chosen = true;
 					break;
 
@@ -58,7 +63,7 @@ void UserInterface::mainMenu(void) {
 						logoutHandler();
 					} else {
 						// If not logged in
-						if (AccountHandler::login(getLoginInfo())) {
+						if (AccountHandler::login(getUsername())) {
 							cout << "Login successful...\n" << endl;
 						} else {
 							cout << "Error - Could not find account\n" << endl;
@@ -74,7 +79,7 @@ void UserInterface::mainMenu(void) {
 
 				case '7':
 					if (!AccountHandler::getLoggedInStatus()) {
-						AccountHandler::login(getLoginInfo());
+						AccountHandler::login(getUsername());
 						chosen = true;
 						break;
 					}
@@ -110,12 +115,21 @@ void UserInterface::menuChoices(void) {
 	}
 }
 
-string UserInterface::getLoginInfo(void) {
+string UserInterface::getTicker(void) {
+
+	string ticker;
+
+	cout << "Please enter the ticker of the stock:" << endl;
+	cin >> input;
+
+	return ticker;
+}
+
+string UserInterface::getUsername(void) {
 
 	string username;
 
 	cout << "Please enter your username:" << endl;
-
 	cin >> username;
 
 	return username;

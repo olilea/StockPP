@@ -13,8 +13,10 @@ public:
 
 private:
 	static string input;
+	static string output;
 
-	static string getLoginInfo(void);
+	static string getTicker(void);
+	static string getUsername(void);
 	static void logoutHandler(void);
 
 };
