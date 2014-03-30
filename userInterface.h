@@ -14,7 +14,7 @@ public:
 private:
 	static string input;
 
-	static string fetchLoginInfo(void);
+	static string getLoginInfo(void);
 	static void logoutHandler(void);
 
 };
