@@ -81,9 +81,6 @@ void Account::addStock(string stockTicker, int quantityToAdd) {
 	// If the stock is already in the stocksHeld array, update the amount held
 	for (list<Stock>::iterator i = stocksHeld.begin(); i != stocksHeld.end(); ++i) {
 
-		std::cout << "HELLO" << std::endl;
-		std::cout << i->getTicker() << std::endl; // TEST
-
 		if (i->getTicker() == stockTicker) {
 			i->addOwned(quantityToAdd);
 			return;
