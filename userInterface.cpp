@@ -34,7 +34,8 @@ void UserInterface::mainMenu(void) {
 			switch (input[0]) {
 
 				case '1':
-					lookupStockHandler();
+					test();
+					//lookupStockHandler();
 					chosen = true;
 					break;
 
@@ -99,6 +100,10 @@ void UserInterface::mainMenu(void) {
 		}
 		chosen = false;
 	}
+}
+
+void UserInterface::test() {
+	StockHandler::getStockData("AAPL");
 }
 
 void UserInterface::menuChoices(void) {

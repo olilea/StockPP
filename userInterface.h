@@ -16,6 +16,8 @@ private:
 	static string output;
 	static string scratch;
 
+	static void test(void);
+
 	static string getTicker(void);
 	static string getUsername(void);
 	static int getAmount(void);
