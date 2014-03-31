@@ -34,8 +34,8 @@ void UserInterface::mainMenu(void) {
 			switch (input[0]) {
 
 				case '1':
-					//test();
-					lookupStockHandler();
+					test();
+					//lookupStockHandler();
 					chosen = true;
 					break;
 

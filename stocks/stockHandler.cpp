@@ -32,9 +32,9 @@ list<string> StockHandler::parseStockData(string stockData) {
 string StockHandler::getStockData(string ticker) {
 
 	string dataPath = URL_PATH + ticker + URL_SUFFIX;
-	string sendString = "GET " + dataPath + " HTTP/1.0\r\n\r\n";
+	string sendString = "GET " + dataPath + " HTTP/1.1\r\nHost: www.finance.yahoo.com\r\n";
 
-	char *recvBuf = new char[1024];
+	char recvBuf[1024*1024] = {0};
 	char *sendBuf = new char[sendString.length() + 1];
 	strcpy(sendBuf, sendString.c_str());
 
@@ -43,7 +43,7 @@ string StockHandler::getStockData(string ticker) {
 	struct hostent *host = gethostbyname(URL_DOMAIN);
 
 	// The relavent struct for connect()
-	struct sockaddr_in servAddr;
+	struct sockaddr_in servaddr;
 
 	/* AF_INET is used for IPv4 addresses
 	SOCK_STREAM specifies a reliable transport layer protocol (TCP)
@@ -55,31 +55,32 @@ string StockHandler::getStockData(string ticker) {
 	} // Else returns socket desriptor
 
 	// Type of socket created in socket()
-	servAddr.sin_family = AF_INET;
+	servaddr.sin_family = AF_INET;
 
-	servAddr.sin_addr.s_addr = *host->h_addr_list[0];
+	memcpy((char *)&servaddr.sin_addr.s_addr, (char *)host->h_addr_list[0], host->h_length);
 
 	/* htons() converts the the portnumber from host byte order
 	to network byte order */
-	servAddr.sin_port = htons(80);
+	servaddr.sin_port = htons(80);
 
-	memset(servAddr.sin_zero, '\0', sizeof servAddr.sin_zero);
+	memset(servaddr.sin_zero, '\0', sizeof servaddr.sin_zero);
 
-	c = connect(socketDesc, (struct sockaddr *)&servAddr, sizeof(servAddr));
+	c = connect(socketDesc, (struct sockaddr *)&servaddr, sizeof(servaddr));
 
 	while (c < 0) {
 		cout << "Failed to connect to server - retrying..." << endl;
 		sleep(5);
-		c = connect(socketDesc, (struct sockaddr *)&servAddr, sizeof(servAddr));
+		c = connect(socketDesc, (struct sockaddr *)&servaddr, sizeof(servaddr));
 	}
 
-	send(socketDesc, sendBuf, strlen(sendBuf), 0);
+	cout << "Connected to Yahoo! server...";
 
-	int bytesRead = read(socketDesc, recvBuf, sizeof(recvBuf));
+	write(socketDesc, sendBuf, strlen(sendBuf));
 
-	cout << recvBuf;
+	while (read(socketDesc, recvBuf, sizeof(recvBuf)) > 0) {
+		cout << recvBuf;
+	}
 
-	delete recvBuf;
 	delete sendBuf;
 	
 }
