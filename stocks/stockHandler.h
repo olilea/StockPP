@@ -7,7 +7,7 @@
 using std::string;
 using std::list;
 
-#define URL_DOMAIN "finance.yahoo.com"
+#define URL_DOMAIN "download.finance.yahoo.com"
 #define URL_PATH "/d/quotes.csv?s="
 #define URL_SUFFIX "&f=snl1op&e=.csv"
 

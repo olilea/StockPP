@@ -32,11 +32,11 @@ list<string> StockHandler::parseStockData(string stockData) {
 string StockHandler::getStockData(string ticker) {
 
 	string dataPath = URL_PATH + ticker + URL_SUFFIX;
-	string sendString = "GET " + dataPath + " HTTP/1.1\r\nHost: www.finance.yahoo.com\r\n";
+	string sendString = "GET " + dataPath + " HTTP/1.0\r\nHost: "+ URL_DOMAIN + "\r\n\r\n";
 
-	char recvBuf[1024*1024] = {0};
-	char *sendBuf = new char[sendString.length() + 1];
-	strcpy(sendBuf, sendString.c_str());
+	char recvBuf[1024] = {0};
+	//char *sendString.c_str() = new char[sendString.length() + 1];
+	//strcpy(sendString.c_str(), sendString.c_str());
 
 	int socketDesc, c;
 
@@ -73,15 +73,15 @@ string StockHandler::getStockData(string ticker) {
 		c = connect(socketDesc, (struct sockaddr *)&servaddr, sizeof(servaddr));
 	}
 
-	cout << "Connected to Yahoo! server...";
+	cout << "Connected to server...";
 
-	write(socketDesc, sendBuf, strlen(sendBuf));
+	write(socketDesc, sendString.c_str(), strlen(sendString.c_str()));
 
 	while (read(socketDesc, recvBuf, sizeof(recvBuf)) > 0) {
 		cout << recvBuf;
 	}
 
-	delete sendBuf;
+	close(socketDesc);
 	
 }
 
