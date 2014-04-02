@@ -13,6 +13,6 @@ make
 
 TODO:
 
-- Replace list<Stock> stocksHeld in account.cpp to be a list of dynamically allocated Stock instance pointers (list<*Stock>.
+- Replace list<Stock> stocksHeld in account.cpp to be a list of dynamically allocated Stock instance pointers (list<*Stock>).
 - Modify all methods that use the original list<Stock>
 - Add methods in user interface for buying and selling stock
