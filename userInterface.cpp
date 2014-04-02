@@ -34,8 +34,7 @@ void UserInterface::mainMenu(void) {
 			switch (input[0]) {
 
 				case '1':
-					test();
-					//lookupStockHandler();
+					lookupStockHandler();
 					chosen = true;
 					break;
 
@@ -136,7 +135,8 @@ string UserInterface::getTicker(void) {
 	string ticker;
 
 	cout << "Please enter the ticker of the stock:" << endl;
-	cin >> input;
+	cin >> ticker;
+	cout << endl;
 
 	return ticker;
 }
@@ -147,6 +147,7 @@ string UserInterface::getUsername(void) {
 
 	cout << "Please enter your username:" << endl;
 	cin >> username;
+	cout << endl;
 
 	return username;
 }
@@ -157,6 +158,7 @@ int UserInterface::getAmount(void) {
 
 	cout << "Please enter the amount:" << endl;
 	cin >> amount;
+	cout << endl;
 
 	return amount;
 }
@@ -168,7 +170,7 @@ void UserInterface::lookupStockHandler(void) {
 	if (StockHandler::stockExists(ticker)) {
 		cout << StockHandler::toPrettyString(StockHandler::lexStockData(StockHandler::getStockData(ticker), ticker)) << endl;
 	} else {
-		cout << "This stock does not exist..." << endl;
+		cout << "This stock does not exist...\n" << endl;
 	}
 }
 

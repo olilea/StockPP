@@ -15,7 +15,7 @@ class StockHandler {
 	
 public:
 
-	static string toPrettyString(list<string> stockData);
+	static string toPrettyString(list<string> stockTokens);
 	static list<string> lexStockData(string stockString, string ticker);
 	static string getStockData(string ticker);
 	static bool stockExists(string ticker);

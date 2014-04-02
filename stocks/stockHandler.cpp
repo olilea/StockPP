@@ -19,9 +19,21 @@ using std::list;
 using std::cout;
 using std::endl;
 
-string StockHandler::toPrettyString(list<string> stockData) {
+string StockHandler::toPrettyString(list<string> stockTokens) {
 
-	// TODO
+	string prettyString = "";
+
+	prettyString += "Ticker:\t\t" + stockTokens.front() + "\r\n";
+	stockTokens.pop_front();
+	prettyString += "Company Name:\t" + stockTokens.front() + "\r\n";
+	stockTokens.pop_front();
+	prettyString += "Latest Value:\t$ " + stockTokens.front() + "\r\n";
+	stockTokens.pop_front();
+	prettyString += "Opening Value:\t$ " + stockTokens.front() + "\r\n";
+	stockTokens.pop_front();
+	prettyString += "Closing value:\t$ " + stockTokens.front() + "\r\n";
+
+	return prettyString;
 }
 
 list<string> StockHandler::lexStockData(string stockData, string ticker) {
