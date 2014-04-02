@@ -52,18 +52,16 @@ list<string> StockHandler::lexStockData(string stockData, string ticker) {
 			while (stockString.at(i) != '\"') {
 				substring += stockString.at(i++);
 			}
-			i++;
 			stockTokens.push_back(substring);
 
 		// If the characters found are numbers, retrieve the number and the decimal point
-		} else if (stockString.at(i) <= '9' && stockData.at(i) >= '0') {
+		} else if (stockString.at(i) >= '0' && stockString.at(i) <= '9') {
 
-			substring += stockString.at(i++);
-
+			// While not at the end of the string and the character currently at is a ',':
 			while ((i < stockStringLength) && (stockString.at(i) != ',')) {
-				substring += stockString.at(i++);
+				substring += stockString.at(i);
+				i++;
 			}
-			i++;
 			stockTokens.push_back(substring);
 
 		} else {
@@ -71,10 +69,12 @@ list<string> StockHandler::lexStockData(string stockData, string ticker) {
 		}
 	}
 
+	/*
 	for (list<string>::const_iterator y = stockTokens.begin(); y != stockTokens.end(); ++y) {
 		cout << *y << " ";
 	}
 	cout << endl;
+	*/
 
 	return stockTokens;
 	
