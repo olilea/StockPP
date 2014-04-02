@@ -103,7 +103,10 @@ void UserInterface::mainMenu(void) {
 }
 
 void UserInterface::test() {
-	StockHandler::lexStockData(StockHandler::getStockData("AAPL"), "AAPL");
+	if (StockHandler::stockExists("YHOO"))
+		cout << "True" << endl;
+	else
+		cout << "False" << endl;
 }
 
 void UserInterface::menuChoices(void) {

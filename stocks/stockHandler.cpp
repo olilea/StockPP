@@ -135,5 +135,16 @@ string StockHandler::getStockData(string ticker) {
 
 bool StockHandler::stockExists(string ticker) {
 
-	// TODO
+	list<string> stockTokens = lexStockData(getStockData(ticker), ticker);
+
+	// Pop the ticker and the name
+	stockTokens.pop_front();
+	stockTokens.pop_front();
+
+	// Latest value is 0.00 only if the stock does not exist
+	if (atof(stockTokens.front().c_str()) != 0.00) {
+		return true;
+	}
+
+	return false;
 }
