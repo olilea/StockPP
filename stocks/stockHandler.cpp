@@ -24,9 +24,60 @@ string StockHandler::toPrettyString(list<string> stockData) {
 	// TODO
 }
 
-list<string> StockHandler::parseStockData(string stockData) {
+list<string> StockHandler::lexStockData(string stockData, string ticker) {
 
-	// TODO
+	list<string> stockTokens;
+	string stockString;
+	int stockStringLength;
+
+	string substring = "";
+
+	// Find the end of the received TCP header
+	unsigned posOfData = stockData.find("\r\n\r\n");
+
+	// Remove the \r\n\r\n
+	posOfData += 4;
+
+	// Creates a new string of everything in stockData from posOfData to the end of the string
+	stockString = stockData.substr(posOfData, string::npos);
+	stockStringLength = stockString.length();
+
+	for (int i = 0; i < stockStringLength; ++i) {
+
+		substring = "";
+		// If a \" is found, retrieve everything until the next \" is found
+		if (stockString.at(i) == '\"') {
+
+			i++;
+			while (stockString.at(i) != '\"') {
+				substring += stockString.at(i++);
+			}
+			i++;
+			stockTokens.push_back(substring);
+
+		// If the characters found are numbers, retrieve the number and the decimal point
+		} else if (stockString.at(i) <= '9' && stockData.at(i) >= '0') {
+
+			substring += stockString.at(i++);
+
+			while ((i < stockStringLength) && (stockString.at(i) != ',')) {
+				substring += stockString.at(i++);
+			}
+			i++;
+			stockTokens.push_back(substring);
+
+		} else {
+			continue;
+		}
+	}
+
+	for (list<string>::const_iterator y = stockTokens.begin(); y != stockTokens.end(); ++y) {
+		cout << *y << " ";
+	}
+	cout << endl;
+
+	return stockTokens;
+	
 }
 
 string StockHandler::getStockData(string ticker) {
@@ -73,16 +124,13 @@ string StockHandler::getStockData(string ticker) {
 		c = connect(socketDesc, (struct sockaddr *)&servaddr, sizeof(servaddr));
 	}
 
-	cout << "Connected to server...";
-
 	write(socketDesc, sendString.c_str(), strlen(sendString.c_str()));
 
-	while (read(socketDesc, recvBuf, sizeof(recvBuf)) > 0) {
-		cout << recvBuf;
-	}
+	while (read(socketDesc, recvBuf, sizeof(recvBuf)) > 0);
 
 	close(socketDesc);
 	
+	return string(recvBuf);
 }
 
 bool StockHandler::stockExists(string ticker) {

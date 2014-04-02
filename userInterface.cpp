@@ -103,7 +103,7 @@ void UserInterface::mainMenu(void) {
 }
 
 void UserInterface::test() {
-	StockHandler::getStockData("AAPL");
+	StockHandler::lexStockData(StockHandler::getStockData("AAPL"), "AAPL");
 }
 
 void UserInterface::menuChoices(void) {
@@ -163,7 +163,7 @@ void UserInterface::lookupStockHandler(void) {
 	string ticker = getTicker();
 
 	if (StockHandler::stockExists(ticker)) {
-		cout << StockHandler::toPrettyString(StockHandler::parseStockData(StockHandler::getStockData(ticker))) << endl;
+		cout << StockHandler::toPrettyString(StockHandler::lexStockData(StockHandler::getStockData(ticker), ticker)) << endl;
 	} else {
 		cout << "This stock does not exist..." << endl;
 	}
