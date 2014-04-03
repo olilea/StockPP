@@ -3,24 +3,23 @@ CXX=g++
 RM=rm -f
 
 FLAGS=	-Wall \
-		-pedantic
+	-pedantic
 
 EXECUTABLE=bin/Stock++
 
 SRCS=	src/main.cpp \
-		src/stockPP.cpp \
-		src/userInterface.cpp \
-		src/accounts/account.cpp \
-		src/accounts/accountHandler.cpp \
-		src/stocks/stock.cpp \
-		src/stocks/stockHandler.cpp
+	src/stockPP.cpp \
+	src/userInterface.cpp \
+	src/accounts/account.cpp \
+	src/accounts/accountHandler.cpp \
+	src/stocks/stock.cpp \
+	src/stocks/stockHandler.cpp
 
 all:	main
-		@echo "Build finished"
+	@echo "Build finished"
 
 main:	$(SRCS)
-		mkdir -p bin/
-		$(CXX) -o $(EXECUTABLE) $(SRCS) $(FLAGS)
+	mkdir -p bin/
+	$(CXX) -o $(EXECUTABLE) $(SRCS) $(FLAGS)
 
-clean:
-		$(RM) $(EXECUTABLE)
+clean:	$(RM) $(EXECUTABLE)
