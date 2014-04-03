@@ -1,6 +1,8 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 
+#define CLEAR_SCREEN "\033[2J\033[H"
+
 #include <string>
 
 using std::string;
@@ -20,7 +22,7 @@ private:
 
 	static string getTicker(void);
 	static string getUsername(void);
-	static int getAmount(void);
+	static float getAmount(void);
 
 	static void lookupStockHandler(void);
 	static void buyStockHandler(void);

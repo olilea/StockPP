@@ -43,7 +43,6 @@ bool AccountHandler::login(string accountName) {
 		loggedInAccount = Account(accountName, 1000.00, list<Stock>());
 	}
 
-	loggedInAccount.subtractStock("HELLO", 103);
 	cout << loggedInAccount.toString() << endl;
 
 	setLoggedInStatus(true);
@@ -447,8 +446,8 @@ void AccountHandler::setupAccountFile(void) {
 
 }
 
-Account AccountHandler::getLoggedInAccount(void) {
-	return loggedInAccount;
+Account * AccountHandler::getLoggedInAccount(void) {
+	return &loggedInAccount;
 }
 
 bool AccountHandler::getLoggedInStatus(void) {

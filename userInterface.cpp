@@ -1,6 +1,7 @@
 #include "userInterface.h"
 
 #include "accounts/accountHandler.h"
+
 #include "stocks/stockHandler.h"
 
 #include <iostream>
@@ -9,6 +10,8 @@
 using std::cout;
 using std::cin;
 using std::endl;
+using std::getline;
+
 using std::string;
 
 string UserInterface::input;
@@ -19,11 +22,14 @@ void UserInterface::mainMenu(void) {
 
 	bool chosen = false;
 
-	if (!AccountHandler::getLoggedInStatus()) {
-		cout << "YOU ARE NOT LOGGED IN - Login using the menu below" << endl;
-	}
-
 	while (1) {
+
+		// Clear the entire display window and move the cursor to the topleftmost position
+		cout << CLEAR_SCREEN;
+
+		if (!AccountHandler::getLoggedInStatus()) {
+			cout << "YOU ARE NOT LOGGED IN - Login using the menu below" << endl;
+		}
 
 		menuChoices();
 		cin >> input;
@@ -40,7 +46,7 @@ void UserInterface::mainMenu(void) {
 
 				case '2':
 					if (AccountHandler::getLoggedInStatus()) {
-						cout << AccountHandler::getLoggedInAccount().toString() << endl;
+						cout << AccountHandler::getLoggedInAccount()->toString() << endl;
 					} else {
 						cout << "You are not logged in...\n" << endl;
 					}
@@ -97,15 +103,19 @@ void UserInterface::mainMenu(void) {
 					cin >> input;
 			}
 		}
+		cout << "Press RETURN to continue..." << endl;
+		// Once simply uses the last return in the buffer, twice waits for a new one
+		cin.get();
+		cin.get();
 		chosen = false;
 	}
 }
 
 void UserInterface::test() {
-	if (StockHandler::stockExists("YHOO"))
-		cout << "True" << endl;
-	else
-		cout << "False" << endl;
+	
+	list<string> stockTokens = StockHandler::lexStockData(StockHandler::getStockData("AAPL"));
+
+	cout << (StockHandler::getNameToken(stockTokens)) << endl;
 }
 
 void UserInterface::menuChoices(void) {
@@ -152,9 +162,9 @@ string UserInterface::getUsername(void) {
 	return username;
 }
 
-int UserInterface::getAmount(void) {
+float UserInterface::getAmount(void) {
 
-	int amount;
+	float amount;
 
 	cout << "Please enter the amount:" << endl;
 	cin >> amount;
@@ -166,9 +176,10 @@ int UserInterface::getAmount(void) {
 // Fetches stock data, parses it and prints it
 void UserInterface::lookupStockHandler(void) {
 	string ticker = getTicker();
+	list<string> stockTokens = StockHandler::lexStockData(StockHandler::getStockData(ticker));
 
-	if (StockHandler::stockExists(ticker)) {
-		cout << StockHandler::toPrettyString(StockHandler::lexStockData(StockHandler::getStockData(ticker), ticker)) << endl;
+	if (StockHandler::stockExists(stockTokens)) {
+		cout << StockHandler::toPrettyString(stockTokens) << endl;
 	} else {
 		cout << "This stock does not exist...\n" << endl;
 	}
@@ -176,17 +187,41 @@ void UserInterface::lookupStockHandler(void) {
 
 void UserInterface::buyStockHandler(void) {
 	string ticker = getTicker();
+	list<string> stockTokens = StockHandler::lexStockData(StockHandler::getStockData(ticker));
+	float latest = StockHandler::getLatestToken(stockTokens);
 
-	if (StockHandler::stockExists(ticker)) {
+	if (StockHandler::stockExists(stockTokens)) {
 
-		// TODO
+
+		if (AccountHandler::getLoggedInAccount()->ownStock(ticker)) {
+			cout << "You already own " << AccountHandler::getLoggedInAccount()->getStock(ticker).getOwned()
+				<< " shares of this stock" << endl;
+		}
+
+		cout << StockHandler::toPrettyString(stockTokens) << endl;
+		if (AccountHandler::getLoggedInAccount()->getCash() >= latest) {
+
+			float amountToBuy = getAmount();
+
+			if ((AccountHandler::getLoggedInAccount()->getCash()) >= (amountToBuy * latest)) {
+
+				AccountHandler::getLoggedInAccount()->subtractCash(amountToBuy * latest);
+				AccountHandler::getLoggedInAccount()->addStock(ticker, amountToBuy);
+				return;
+			}
+		}
+		cout << "You do not have the funds to purchase this stock..." << endl;
+
+	} else {
+		cout << "This stock does not exist...\n" << endl;
 	}
 }
 
 void UserInterface::sellStockHandler(void) {
 	string ticker = getTicker();
+	list<string> stockTokens = StockHandler::lexStockData(StockHandler::getStockData(ticker));
 
-	if (StockHandler::stockExists(ticker)) {
+	if (StockHandler::stockExists(stockTokens)) {
 
 		// TODO
 	}

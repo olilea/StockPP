@@ -24,7 +24,7 @@ public:
 	static string readAccountFile(void);
 	static void setupAccountFile(void);
 
-	static Account getLoggedInAccount(void);
+	static Account * getLoggedInAccount(void);
 	static bool getLoggedInStatus(void);
 	static string getAccountFilename(void);
 

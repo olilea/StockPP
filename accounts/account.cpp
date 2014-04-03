@@ -4,7 +4,6 @@
 
 #include <string>
 #include <list>
-#include <iostream>
 
 using std::string;
 
@@ -68,15 +67,15 @@ string Account::toJsonString(void) {
 
 void Account::addCash(float cashToAdd) {
 	cash += cashToAdd;
+	setCash(cash);
 }
 
 void Account::subtractCash(float cashToSubtract) {
 	cash -= cashToSubtract;
+	setCash(cash);
 }
 
 void Account::addStock(string stockTicker, int quantityToAdd) {
-
-	std::cout << "HERE" << std::endl;
 	
 	// If the stock is already in the stocksHeld array, update the amount held
 	for (list<Stock>::iterator i = stocksHeld.begin(); i != stocksHeld.end(); ++i) {
@@ -120,6 +119,27 @@ void Account::removeStock(string stockTicker) {
 	}
 }
 
+bool Account::ownStock(string ticker) {
+
+	for (list<Stock>::iterator i = stocksHeld.begin(); i != stocksHeld.end(); ++i) {
+		if (i->getTicker() == ticker) {
+			return true;
+		}
+	}
+	return false;
+}
+
+Stock Account::getStock(string ticker) {
+	
+	for (list<Stock>::iterator i = stocksHeld.begin(); i != stocksHeld.end(); ++i) {
+		if (i->getTicker() == ticker) {
+			return (*i);
+		}
+	}
+	// Should not reach this point
+	return Stock("Error", 0);
+}
+
 void Account::setName(string newName) {
 	name = newName;
 }
@@ -139,4 +159,3 @@ float Account::getCash(void) {
 list<Stock> Account::getStocksHeld(void) {
 	return stocksHeld;
 }
-

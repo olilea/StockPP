@@ -16,9 +16,15 @@ class StockHandler {
 public:
 
 	static string toPrettyString(list<string> stockTokens);
-	static list<string> lexStockData(string stockString, string ticker);
+	static string getTickerToken(list<string> stockTokens);
+	static string getNameToken(list<string> stockTokens);
+	static float getLatestToken(list<string> stockTokens);
+	static float getOpeningToken(list<string> stockTokens);
+	static float getClosingToken(list<string> stockTokens);
+
+	static list<string> lexStockData(string stockString);
 	static string getStockData(string ticker);
-	static bool stockExists(string ticker);
+	static bool stockExists(list<string> stockTokens);
 };
 
 #endif

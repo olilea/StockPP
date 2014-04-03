@@ -23,20 +23,49 @@ string StockHandler::toPrettyString(list<string> stockTokens) {
 
 	string prettyString = "";
 
-	prettyString += "Ticker:\t\t" + stockTokens.front() + "\r\n";
+	prettyString += "Ticker:\t\t\t" + stockTokens.front() + "\r\n";
 	stockTokens.pop_front();
-	prettyString += "Company Name:\t" + stockTokens.front() + "\r\n";
+	prettyString += "Company Name:\t\t" + stockTokens.front() + "\r\n";
 	stockTokens.pop_front();
-	prettyString += "Latest Value:\t$ " + stockTokens.front() + "\r\n";
+	prettyString += "Latest Value:\t\t$ " + stockTokens.front() + "\r\n";
 	stockTokens.pop_front();
-	prettyString += "Opening Value:\t$ " + stockTokens.front() + "\r\n";
+	prettyString += "Opening Value:\t\t$ " + stockTokens.front() + "\r\n";
 	stockTokens.pop_front();
-	prettyString += "Closing value:\t$ " + stockTokens.front() + "\r\n";
+	prettyString += "Prev. Closing Value:\t$ " + stockTokens.front() + "\r\n";
 
 	return prettyString;
 }
 
-list<string> StockHandler::lexStockData(string stockData, string ticker) {
+string StockHandler::getTickerToken(list<string> stockTokens) {
+	return stockTokens.front();
+}
+
+string StockHandler::getNameToken(list<string> stockTokens) {
+	stockTokens.pop_front();
+	return stockTokens.front();
+}
+
+float StockHandler::getLatestToken(list<string> stockTokens) {
+	stockTokens.pop_front();
+	stockTokens.pop_front();
+	return atof(stockTokens.front().c_str());
+}
+
+float StockHandler::getOpeningToken(list<string> stockTokens) {
+	for (int i = 0; i < 3; ++i) {
+		stockTokens.pop_front();
+	}
+	return atof(stockTokens.front().c_str());
+}
+
+float StockHandler::getClosingToken(list<string> stockTokens) {
+	for (int i = 0; i < 4; ++i) {
+		stockTokens.pop_front();
+	}
+	return atof(stockTokens.front().c_str());
+}
+
+list<string> StockHandler::lexStockData(string stockData) {
 
 	list<string> stockTokens;
 	string stockString;
@@ -145,9 +174,7 @@ string StockHandler::getStockData(string ticker) {
 	return string(recvBuf);
 }
 
-bool StockHandler::stockExists(string ticker) {
-
-	list<string> stockTokens = lexStockData(getStockData(ticker), ticker);
+bool StockHandler::stockExists(list<string> stockTokens) {
 
 	// Pop the ticker and the name
 	stockTokens.pop_front();

@@ -28,6 +28,8 @@ public:
 	void addStock(string, int);
 	void subtractStock(string, int);
 	void removeStock(string);
+	bool ownStock(string ticker);
+	Stock getStock(string ticker);
 
 	void setName(string);
 	void setCash(float);
