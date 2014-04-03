@@ -8,7 +8,7 @@ No dependencies required, simply:
 
 ```shell
 make
-./Stock++
+./bin/Stock++
 ```
 
 TODO:
