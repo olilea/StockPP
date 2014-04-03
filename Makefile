@@ -5,20 +5,21 @@ RM=rm -f
 FLAGS=	-Wall \
 		-pedantic
 
-EXECUTABLE=Stock++
+EXECUTABLE=bin/Stock++
 
-SRCS=	main.cpp \
-		stockPP.cpp \
-		userInterface.cpp \
-		accounts/account.cpp \
-		accounts/accountHandler.cpp \
-		stocks/stock.cpp \
-		stocks/stockHandler.cpp
+SRCS=	src/main.cpp \
+		src/stockPP.cpp \
+		src/userInterface.cpp \
+		src/accounts/account.cpp \
+		src/accounts/accountHandler.cpp \
+		src/stocks/stock.cpp \
+		src/stocks/stockHandler.cpp
 
 all:	main
 		@echo "Build finished"
 
 main:	$(SRCS)
+		mkdir -p bin/
 		$(CXX) -o $(EXECUTABLE) $(SRCS) $(FLAGS)
 
 clean:
