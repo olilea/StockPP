@@ -5,6 +5,7 @@
 #include "stocks/stockHandler.h"
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 using std::cout;
@@ -16,11 +17,11 @@ using std::string;
 
 string UserInterface::input;
 string UserInterface::output;
-string UserInterface::scratch;
 
 void UserInterface::mainMenu(void) {
 
 	bool chosen = false;
+	std::setprecision(2);
 
 	while (1) {
 
@@ -186,12 +187,14 @@ void UserInterface::lookupStockHandler(void) {
 }
 
 void UserInterface::buyStockHandler(void) {
+
+	cout << AccountHandler::getLoggedInAccount()->toString() << endl;
+
 	string ticker = getTicker();
 	list<string> stockTokens = StockHandler::lexStockData(StockHandler::getStockData(ticker));
 	float latest = StockHandler::getLatestToken(stockTokens);
 
 	if (StockHandler::stockExists(stockTokens)) {
-
 
 		if (AccountHandler::getLoggedInAccount()->ownStock(ticker)) {
 			cout << "You already own " << AccountHandler::getLoggedInAccount()->getStock(ticker).getOwned()
@@ -207,23 +210,51 @@ void UserInterface::buyStockHandler(void) {
 
 				AccountHandler::getLoggedInAccount()->subtractCash(amountToBuy * latest);
 				AccountHandler::getLoggedInAccount()->addStock(ticker, amountToBuy);
+				cout << "Transaction complete...\n\r" << endl;
 				return;
 			}
 		}
-		cout << "You do not have the funds to purchase this stock..." << endl;
+		cout << "You do not have the funds to purchase this stock...\n\r" << endl;
 
 	} else {
-		cout << "This stock does not exist...\n" << endl;
+		cout << "This stock does not exist...\n\r" << endl;
 	}
 }
 
 void UserInterface::sellStockHandler(void) {
+
+	cout << AccountHandler::getLoggedInAccount()->toString() << endl;
+
 	string ticker = getTicker();
 	list<string> stockTokens = StockHandler::lexStockData(StockHandler::getStockData(ticker));
+	float latest = StockHandler::getLatestToken(stockTokens);
 
 	if (StockHandler::stockExists(stockTokens)) {
 
-		// TODO
+		if (AccountHandler::getLoggedInAccount()->ownStock(ticker)) {
+
+			int stockOwned = AccountHandler::getLoggedInAccount()->getStock(ticker).getOwned();
+
+			cout << "You own " << stockOwned << " shares of this stock\n\r"
+				<< "Value Per Stock:\t$ " << latest << "\n\r"
+				<< "Total Value:\t\t$ " << (stockOwned * latest) << "\n\r" << endl;
+
+			float amountToSell = getAmount();
+
+			if (amountToSell <= stockOwned) {
+				AccountHandler::getLoggedInAccount()->addCash(amountToSell * latest);
+				AccountHandler::getLoggedInAccount()->subtractStock(ticker, amountToSell);
+				cout << "Transaction complete...\n\r" << endl;
+				return;
+			} else {
+				cout << "You do not own enough stock to sell the given amount...\n\r" << endl;
+			}
+		} else{
+			cout << "You do not own any of this stock...\n\r" << endl;
+		}
+
+	} else {
+		cout << "This stock does not exist...\n\r" << endl;
 	}
 }
 

@@ -27,7 +27,7 @@ string Account::toString(void) {
 	int numOfStocks = stocks.size();
 
 	accountString += "Name:\t\t" + name + "\n";
-	accountString += "Cash:\t\t" + to_string(cash) + "\n";
+	accountString += "Cash:\t\t$ " + to_string(cash) + "\n";
 
 	accountString += "Stocks:";
 
@@ -67,12 +67,10 @@ string Account::toJsonString(void) {
 
 void Account::addCash(float cashToAdd) {
 	cash += cashToAdd;
-	setCash(cash);
 }
 
 void Account::subtractCash(float cashToSubtract) {
 	cash -= cashToSubtract;
-	setCash(cash);
 }
 
 void Account::addStock(string stockTicker, int quantityToAdd) {

@@ -16,7 +16,6 @@ public:
 private:
 	static string input;
 	static string output;
-	static string scratch;
 
 	static void test(void);
 
