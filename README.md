@@ -12,5 +12,3 @@ make
 ```
 
 TODO:
-
-- Add method in user interface for selling stock
