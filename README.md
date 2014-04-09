@@ -10,5 +10,3 @@ No dependencies required, simply:
 make
 ./bin/Stock++
 ```
-
-TODO:
